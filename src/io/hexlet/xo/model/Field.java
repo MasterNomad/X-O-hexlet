@@ -1,21 +1,25 @@
 package io.hexlet.xo.model;
 
 import io.hexlet.xo.model.exceptions.InvalidPointException;
-import io.hexlet.xo.model.exceptions.PointAlreadyOccupiedException;
 
 import java.awt.*;
 
 public class Field {
 
-    private static final int FIELD_SIZE = 3;
     private static final int MIN_COORDINATE = 0;
-    private static final int MAX_COORDINATE = FIELD_SIZE;
 
-    private final Figure[][] field = new Figure[FIELD_SIZE][FIELD_SIZE];
+    private final Figure[][] field;
+
+    private final int fieldSize;
 
     public int getSize() {
 
-        return FIELD_SIZE;
+        return fieldSize;
+    }
+
+    public Field(final int fieldSize) {
+        this.fieldSize = fieldSize;
+        field = new Figure[fieldSize][fieldSize];
     }
 
     public Figure getFigure (final Point point)
@@ -45,6 +49,6 @@ public class Field {
     }
 
     private boolean checkCoordinate (final int coordinate) {
-        return coordinate >= MIN_COORDINATE && coordinate < MAX_COORDINATE;
+        return coordinate >= MIN_COORDINATE && coordinate < field.length;
     }
 }
