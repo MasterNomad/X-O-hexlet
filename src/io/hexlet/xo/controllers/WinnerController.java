@@ -15,39 +15,19 @@ public class WinnerController {
 
             for (int i = 0; i < field.getSize(); i += 1) {
 
-                if (checkLine(field, new Point(i, 0), new IPointChanger() {
-                    @Override
-                    public Point next(Point p) {
-                        return new Point(p.x, p.y + 1);
-                    }
-                })) {
+                if (checkLine(field, new Point(i, 0), p -> new Point(p.x, p.y + 1))) {
                     return field.getFigure(new Point(i, 0));
                 }
-                if (checkLine(field, new Point(0, i), new IPointChanger() {
-                    @Override
-                    public Point next(Point p) {
-                        return new Point(p.x + 1, p.y);
-                    }
-                })) {
+                if (checkLine(field, new Point(0, i), p -> new Point(p.x + 1, p.y))) {
                     return field.getFigure(new Point(0, i));
                 }
             }
 
-            if (checkLine(field, new Point(0, 0), new IPointChanger() {
-                @Override
-                public Point next(Point p) {
-                    return new Point(p.x + 1, p.y + 1);
-                }
-            })) {
+            if (checkLine(field, new Point(0, 0), p -> new Point(p.x + 1, p.y + 1))) {
                 return field.getFigure(new Point(0, 0));
             }
 
-            if (checkLine(field, new Point(0, 2), new IPointChanger() {
-                @Override
-                public Point next(Point p) {
-                    return new Point(p.x + 1, p.y - 1);
-                }
-            })) {
+            if (checkLine(field, new Point(0, 2), p -> new Point(p.x + 1, p.y - 1))) {
                 return field.getFigure(new Point(0, 2));
             }
         } catch (InvalidPointException e) {
@@ -58,27 +38,29 @@ public class WinnerController {
 
 
     private boolean checkLine(final Field field,
-                              final Point startPoint,
-                              final IPointChanger pointChanger
-    ) {
+                              final Point currentPoint,
+                              final IPointChanger pointChanger) {
 
-        final Point p1 = startPoint;
-        final Point p2 = pointChanger.next(p1);
-        final Point p3 = pointChanger.next(p2);
+        final Figure currentFigure;
+        final Figure nextFigure;
+        final Point nextPoint = pointChanger.next(currentPoint);
 
         try {
-            if (field.getFigure(p1) == null) {
-                return false;
-            }
-            if (field.getFigure(p1) == field.getFigure(p2) &&
-                    field.getFigure(p1) == field.getFigure(p3)) {
-                return true;
-            }
-        } catch (InvalidPointException e) {
-            e.printStackTrace();
+            currentFigure = field.getFigure(currentPoint);
+            nextFigure = field.getFigure(currentPoint);
+        } catch (final InvalidPointException e) {
+            return true;
         }
 
-        return false;
+        if (currentFigure == null) {
+            return false;
+        }
+
+        if (currentFigure != nextFigure) {
+            return false;
+        }
+
+        return checkLine(field, nextPoint, pointChanger);
 
     }
 
