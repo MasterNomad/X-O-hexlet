@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class CurrentMoveControllerTest {
 
     @Test
-    public void FirstMove() throws Exception {
+    public void FirstMove() {
 
         final Field field = new Field(3);
         final Figure inputFigure = Figure.X;
@@ -63,5 +63,24 @@ public class CurrentMoveControllerTest {
         final Figure actualFigure = controller.currentMove(field);
 
         assertEquals(expectedFigure, actualFigure);
+    }
+
+    @Test
+    public void draw() throws Exception {
+
+        final Field field = new Field(3);
+        final CurrentMoveController controller = new CurrentMoveController();
+
+        int counter = 2;
+
+        for (int i = 0; i < field.getSize(); i += 1) {
+            for (int j = 0; j < field.getSize(); j += 1) {
+                field.setFigure(new Point(i, j), counter % 2 == 0 ? Figure.X : Figure.O);
+                counter += 1;
+            }
+        }
+
+        assertNull(controller.currentMove(field));
+
     }
 }
