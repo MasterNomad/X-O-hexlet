@@ -11,6 +11,7 @@ public class CurrentMoveController {
     public Figure currentMove(Field field) {
 
         if (figureCounter(field, Figure.X) == 0) return Figure.X;
+        if (figureCounter(field, Figure.X) + figureCounter(field, Figure.O) == field.getSize() * field.getSize()) return null;
         if (figureCounter(field, Figure.X) <= figureCounter(field, Figure.O)) return Figure.X;
 
         return Figure.O;
