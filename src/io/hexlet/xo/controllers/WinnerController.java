@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class WinnerController {
 
-    public Figure getWinnder(final Field field) {
+    public Figure getWinner(final Field field) {
 
         try {
 
@@ -47,7 +47,7 @@ public class WinnerController {
 
         try {
             currentFigure = field.getFigure(currentPoint);
-            nextFigure = field.getFigure(currentPoint);
+            nextFigure = field.getFigure(nextPoint);
         } catch (final InvalidPointException e) {
             return true;
         }
