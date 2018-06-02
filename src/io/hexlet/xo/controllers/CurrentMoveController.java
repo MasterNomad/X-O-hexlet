@@ -10,23 +10,22 @@ public class CurrentMoveController {
 
     public Figure currentMove(Field field) {
 
-        if (figureCounter(field, Figure.X) == 0) return Figure.X;
-        if (figureCounter(field, Figure.X) + figureCounter(field, Figure.O) == field.getSize() * field.getSize()) return null;
-        if (figureCounter(field, Figure.X) <= figureCounter(field, Figure.O)) return Figure.X;
+        final int count = figureCounter(field);
+
+        if (count == field.getSize() * field.getSize()) return null;
+        if (count % 2 == 0) return Figure.X;
 
         return Figure.O;
     }
 
-    private int figureCounter (Field field, Figure figure) {
+    private int figureCounter (Field field) {
 
         int counter = 0;
-        Figure currentFigure;
 
         try {
             for (int i = 0; i < field.getSize(); i += 1) {
                 for (int j = 0; j < field.getSize(); j += 1) {
-                    currentFigure = field.getFigure(new Point(i, j));
-                    if (currentFigure == figure) counter += 1;
+                    if (field.getFigure(new Point(i, j)) == null) counter += 1;
                 }
             }
         } catch (InvalidPointException e) {
