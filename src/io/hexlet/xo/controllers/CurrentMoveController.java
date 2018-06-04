@@ -25,7 +25,7 @@ public class CurrentMoveController {
         try {
             for (int i = 0; i < field.getSize(); i += 1) {
                 for (int j = 0; j < field.getSize(); j += 1) {
-                    if (field.getFigure(new Point(i, j)) == null) counter += 1;
+                    if (field.getFigure(new Point(i, j)) != null) counter += 1;
                 }
             }
         } catch (InvalidPointException e) {
